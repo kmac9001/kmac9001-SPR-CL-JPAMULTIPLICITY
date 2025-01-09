@@ -58,7 +58,12 @@ public class StudentService {
      * @param classroom a persisted, existing classroom passed into this method
      */
     public void assignClassroomToStudent(long studentId, Classroom classroom){
-
+        Optional<Student> sO = studentRepository.findById(studentId);
+        if(sO.isPresent()){
+            Student s = sO.get();
+            s.setClassroom(classroom);
+            studentRepository.save(s);
+        }
     }
 
     /**
@@ -69,7 +74,14 @@ public class StudentService {
      * @return the Classroom of the student
      */
     public Classroom getClassroomOfStudent(long studentId){
-        return null;
+        Optional<Student> sO = studentRepository.findById(studentId);
+        if(sO.isPresent()){
+            return sO.get().getClassroom();
+            
+        }
+        else{
+            return null;
+        }
     }
 
     /**
@@ -79,6 +91,11 @@ public class StudentService {
      * @param studentId Id of a persisted, existing student entity
      */
     public void unassignClassroomOfStudent(long studentId){
-
+        Optional<Student> sO = studentRepository.findById(studentId);
+        if(sO.isPresent()){
+            Student s = sO.get();
+            s.setClassroom(null);
+            studentRepository.save(s);
+        }
     }
 }
